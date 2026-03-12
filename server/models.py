@@ -17,7 +17,7 @@ class Workout(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date)
     duration_minutes = db.Column(db.Integer)
-    notes = db.Column(db.Text) #should this be db.String?
+    notes = db.Column(db.Text)
 
 workout_exercises = db.Table('WorkoutExercises', 
                            db.Column('id', db.Integer, primary_key=True),
