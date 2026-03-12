@@ -15,14 +15,14 @@ class Workout(db.Model):
     __tablename__ = 'workouts'
 
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.Date) #not sure if this is right for the date
+    date = db.Column(db.Date)
     duration_minutes = db.Column(db.Integer)
     notes = db.Column(db.Text) #should this be db.String?
 
-WorkoutExercise = db.Table('WorkoutExercises', 
+workout_exercises = db.Table('WorkoutExercises', 
                            db.Column('id', db.Integer, primary_key=True),
                            db.Column('workout_id', db.Integer, db.ForeignKey('workouts.id')),
-                           db.Column('exercise_id', db.Intger, db.ForeignKey('exercise.id')),
+                           db.Column('exercise_id', db.Integer, db.ForeignKey('exercises.id')),
                            db.Column('reps', db.Integer),
-                           db.Column('duraction_seconds', db.Integer)
+                           db.Column('duration_seconds', db.Integer)
                            )
