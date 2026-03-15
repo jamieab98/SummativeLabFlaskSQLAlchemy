@@ -20,7 +20,11 @@ def get_workouts():
 
 @app.get('/workouts/<int:id>')
 def get_workout(id):
-    return jsonify({'message': f'placeholder for showing workout: {id}'})
+    workout = Workout.query.filter_by(id=id).first()
+    if workout is None:
+        return jsonify({'message': 'workout does not exist'}), 404
+    result = WorkoutSchema().dump(workout)
+    return jsonify(result), 200
 
 @app.post('/workouts')
 def create_workout():
