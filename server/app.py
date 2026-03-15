@@ -45,7 +45,7 @@ def get_exercises():
     return jsonify({'message': 'placeholder for all exercises'})
 
 @app.get('/exercises/<int:id>')
-def get_exercises(id):
+def get_exercise(id):
     return jsonify({'message': f'placehold for showing exercise with id: {id}'})
 
 @app.post('/exercises')
