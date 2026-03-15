@@ -13,24 +13,11 @@ db.init_app(app)
 #Routes
 @app.get("/workouts")
 def get_workouts():
-    workouts = Workout.query.all()
-    workout_list = []
-    for workout in workouts:
-        workout_dict = {'id': workout.id, 'date': workout.date.isoformat(), 'duration in minutes': workout.duration_minutes, 'notes': workout.notes}
-        workout_list.append(workout_dict)
-    return jsonify(workout_list), 200
+    return jsonify({'message': 'placeholder for showinng workouts'})
 
 @app.get('/workouts/<int:id>')
 def get_workout(id):
-    workout = Workout.query.filter_by(id=id).first()
-    if workout is None:
-        return jsonify({'message': 'workout does not exist'}), 404
-    exercises = workout.workoutexercises
-    exercises_list = []
-    for exercise in exercises:
-        exercise_dict = {'id': exercise.id, 'reps': exercise.reps, 'duration': exercise.duration_seconds, 'name': exercise.exercise.name}
-        exercises_list.append(exercise_dict)
-    return jsonify(exercises_list), 200
+    return jsonify({'message': f'placeholder for showing workout: {id}'})
 
 @app.post('/workouts')
 def create_workout():
