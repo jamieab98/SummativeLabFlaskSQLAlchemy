@@ -12,7 +12,7 @@ class WorkoutSchema(Schema):
     duration_minutes = fields.Int(required=True)
     notes = fields.Str()
 
-    workoutexercises = fields.Nested(lambda: WorkoutExercisesSchema(), exclude=('workout',), many=True)
+    workoutexercises = fields.Nested(lambda: WorkoutExercisesSchema(), many=True)
 
 class WorkoutExercisesSchema(Schema):
     id = fields.Int(dump_only=True)

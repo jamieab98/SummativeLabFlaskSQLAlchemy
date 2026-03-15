@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_migrate import Migrate
 from models import *
+from schemas import *
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -13,7 +14,9 @@ db.init_app(app)
 #Routes
 @app.get("/workouts")
 def get_workouts():
-    return jsonify({'message': 'placeholder for showinng workouts'})
+    workouts = Workout.query.all()
+    results = WorkoutSchema(many=True).dump(workouts)
+    return jsonify(results), 200
 
 @app.get('/workouts/<int:id>')
 def get_workout(id):
