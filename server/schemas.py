@@ -1,4 +1,4 @@
-from marshmallow import fields, Schema
+from marshmallow import fields, Schema, validates
 
 class ExerciseSchema(Schema):
     id = fields.Int(dump_only=True)
@@ -22,3 +22,17 @@ class WorkoutExercisesSchema(Schema):
     duration_seconds = fields.Int()
 
     exercise = fields.Nested(ExerciseSchema())
+
+    @validates('reps')
+    def validates_reps(self, key, reps):
+        if reps <= 0:
+            raise ValueError("The number of reps must be positive")
+        if reps is None:
+            raise ValueError("Must input number of reps")
+        return reps
+    
+    @validates('duration_seconds')
+    def validates_duration(self, key, duration_seconds):
+        if duration_seconds is not None and duration_seconds <= 0:
+            raise ValueError("Duration of exercise must be positive")
+        return duration_seconds
