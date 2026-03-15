@@ -1,6 +1,5 @@
 from flask import Flask, jsonify
 from flask_migrate import Migrate
-
 from models import *
 
 app = Flask(__name__)
