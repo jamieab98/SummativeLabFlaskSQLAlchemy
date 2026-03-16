@@ -43,7 +43,12 @@ def create_workout():
 
 @app.delete('/workouts/<int:id>')
 def delete_workout(id):
-    return jsonify({'message': f'placeholder for deleting workout with id: {id}'})
+    workout = Workout.query.filter_by(id=id).first()
+    if workout is None:
+        return jsonify({'message': 'searched workout does not exist'}), 404
+    db.session.delete(workout)
+    db.session.commit()
+    return jsonify({'message': 'workout successfully deleted'}), 200
 
 @app.get('/exercises')
 def get_exercises():
