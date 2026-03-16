@@ -2,9 +2,9 @@ from marshmallow import fields, Schema, validates
 
 class ExerciseSchema(Schema):
     id = fields.Int(dump_only=True)
-    name = fields.Str(dump_only=True)
-    category = fields.Str(dump_only=True)
-    equipment_needed = fields.Bool(dump_only=True)
+    name = fields.Str(required=True)
+    category = fields.Str(required=True)
+    equipment_needed = fields.Bool(required=True)
 
 class WorkoutSchema(Schema):
     id = fields.Int(dump_only=True)

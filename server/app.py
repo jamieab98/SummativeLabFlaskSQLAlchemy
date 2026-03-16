@@ -66,7 +66,16 @@ def get_exercise(id):
 
 @app.post('/exercises')
 def create_exercise():
-    return jsonify({'message': 'placeholder for post exercise'})
+    user_data = request.get_json()
+    try:
+        deserialized_data = ExerciseSchema().load(user_data)
+    except ValidationError as err:
+        return jsonify(err.messages), 400
+    exercise = Exercise(**deserialized_data)
+    db.session.add(exercise)
+    db.session.commit()
+    result = ExerciseSchema().dump(exercise)
+    return jsonify(result), 201
 
 @app.delete('/exercises/<int:id>')
 def delete_exercise(id):
