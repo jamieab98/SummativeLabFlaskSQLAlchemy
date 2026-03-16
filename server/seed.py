@@ -13,7 +13,7 @@ with app.app_context():
     pullups = Exercise(name="Pull-Ups", category="Strength", equipment_needed=False)
     rowing = Exercise(name="Rowing", category="Cardio", equipment_needed=True)
     jumprope = Exercise(name="Jumping Rope", category="Cardio", equipment_needed=True)
-    benchpress = Exercise(name="Benmch Press", category="Strength", equipment_needed=True)
+    benchpress = Exercise(name="Bench Press", category="Strength", equipment_needed=True)
 
     db.session.add_all([pushups, pullups, rowing, jumprope, benchpress])
     db.session.commit()
