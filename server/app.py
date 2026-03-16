@@ -58,7 +58,11 @@ def get_exercises():
 
 @app.get('/exercises/<int:id>')
 def get_exercise(id):
-    return jsonify({'message': f'placehold for showing exercise with id: {id}'})
+    exercise = Exercise.query.filter_by(id=id).first()
+    if exercise is None:
+        return jsonify({'message': 'exercise not found'}), 404
+    result = ExerciseSchema().dump(exercise)
+    return jsonify(result), 200
 
 @app.post('/exercises')
 def create_exercise():
