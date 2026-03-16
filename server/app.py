@@ -1,7 +1,9 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_migrate import Migrate
+from marshmallow import ValidationError
 from models import *
 from schemas import *
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -28,7 +30,16 @@ def get_workout(id):
 
 @app.post('/workouts')
 def create_workout():
-    return jsonify({'message': 'placeholder for post workout'})
+    user_data = request.get_json()
+    try:
+        deserialized_data = WorkoutSchema().load(user_data)
+    except ValidationError as err:
+        return jsonify(err.messages), 400
+    workout = Workout(**deserialized_data)
+    db.session.add(workout)
+    db.session.commit()
+    result = WorkoutSchema().dump(workout)
+    return jsonify(result), 201
 
 @app.delete('/workouts/<int:id>')
 def delete_workout(id):
