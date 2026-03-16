@@ -79,11 +79,31 @@ def create_exercise():
 
 @app.delete('/exercises/<int:id>')
 def delete_exercise(id):
-    return jsonify({'message': f'placeholder for deleteing exercise with id: {id}'})
+    exercise = Exercise.query.filter_by(id=id)
+    if exercise is None:
+        return jsonify({'message': 'exercise not found'}), 404
+    db.session.delete(exercise)
+    db.session.commit()
+    return jsonify({'message': 'successfully deleted the exercise'}), 200
 
 @app.post('/workouts/<int:workout_id>/exercises/<int:exercise_id>/workout_exercises')
 def add_exercise_to_workout(workout_id, exercise_id):
-    return jsonify({'message': f'placeholder for adding exercise {exercise_id} to workout {workout_id}'})
+    workout = Workout.query.filter_by(id=workout_id).first()
+    if workout is None:
+        return jsonify({'message': 'workout does not exist'}), 404
+    exercise = Exercise.query.filter_by(id=exercise_id).first()
+    if exercise is None:
+        return jsonify({'message': 'exercise does not exist'}), 404
+    user_data = request.get_json()
+    try:
+        deserialized_data = WorkoutExercisesSchema().load(user_data)
+    except ValidationError as err:
+        return jsonify(err.messages), 400
+    workoutexercise = WorkoutExercises(workout_id=workout_id, exercise_id=exercise_id, **deserialized_data)
+    db.session.add(workoutexercise)
+    db.session.commit()
+    result = WorkoutExercisesSchema().dump(workoutexercise)
+    return jsonify(result), 200
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
