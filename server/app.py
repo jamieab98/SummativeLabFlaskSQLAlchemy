@@ -52,7 +52,9 @@ def delete_workout(id):
 
 @app.get('/exercises')
 def get_exercises():
-    return jsonify({'message': 'placeholder for all exercises'})
+    exercises = Exercise.query.all()
+    results = ExerciseSchema(many=True).dump(exercises)
+    return jsonify(results), 200
 
 @app.get('/exercises/<int:id>')
 def get_exercise(id):
